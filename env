@@ -1,0 +1,4 @@
+POSTGRES_USER=matteruser
+POSTGRES_PASSWORD=strongpassword
+POSTGRES_DB=mattermost
+DOMAIN=chat.example.com
