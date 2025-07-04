@@ -18,6 +18,7 @@ services:
     image: mattermost/mattermost-team-edition:latest
     container_name: mattermost_app
     restart: unless-stopped
+    user: "2000:2000"  # запускаем от пользователя Mattermost
     environment:
       MM_CONFIG: config/config.json
       DB_HOST: db
@@ -25,9 +26,11 @@ services:
       MM_SQLSETTINGS_DRIVERNAME: postgres
       MM_SQLSETTINGS_DATASOURCE: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?sslmode=disable&connect_timeout=10
       MM_SERVICESETTINGS_SITEURL: https://${DOMAIN}
-      MM_PLUGINSETTINGS_ENABLE: "false"
+      MM_PLUGINSETTINGS_ENABLE: "true"
     volumes:
       - ./data/mattermost:/mattermost/data
+      - ./data/plugins:/mattermost/plugins        # плагины (в т.ч. focalboard)
+      - ./config:/mattermost/config               # config.json будет создан тут
     depends_on:
       - db
     networks:
